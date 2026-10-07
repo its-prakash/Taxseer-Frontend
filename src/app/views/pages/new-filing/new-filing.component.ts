@@ -3,11 +3,13 @@ import { DashboardFilersComponent, Filer } from '../filing/dashboard-filers/dash
 import { FormYearComponent } from '../filing/form-year/form-year.component';
 import { RecipientsComponent } from '../filing/recipients/recipients.component';
 import { FormDetailsComponent } from '../filing/form-details/form-details.component';
+import { ReviewComponent } from '../filing/review/review.component';
+import { AddFilerComponent } from '../add-filer/add-filer.component';
 
 @Component({
   selector: 'app-new-filing',
   standalone: true,
-  imports: [DashboardFilersComponent, FormYearComponent, RecipientsComponent, FormDetailsComponent],
+  imports: [DashboardFilersComponent, FormYearComponent, RecipientsComponent, FormDetailsComponent, ReviewComponent, AddFilerComponent],
   templateUrl: './new-filing.component.html',
   styleUrl: './new-filing.component.scss'
 })
