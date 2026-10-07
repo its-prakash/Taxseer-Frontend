@@ -1,0 +1,141 @@
+<main id="wizBody">
+  <div class="sec-h">
+    <div>
+      <h2>Who is filing?</h2>
+      <div class="muted small">
+        The payer or employer that appears on the form.
+      </div>
+    </div>
+    <div class="search-action-group">
+      <input
+        class="search"
+        id="fq"
+        [(ngModel)]="searchQuery"
+        placeholder="Type a name or EIN"
+        aria-label="Find filer"
+        autofocus
+      />
+      <button class="btn primary-btn" (click)="addFiler()">Add filer</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Name / company</th>
+          <th>EIN</th>
+          <th>Address</th>
+          <th>Forms used before</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="ftb">
+        <!-- Recently Worked On Group -->
+        <ng-container *ngIf="recentFilers.length > 0">
+          <tr class="group-label">
+            <td colspan="6">Recently worked on</td>
+          </tr>
+          <tr
+            *ngFor="let filer of recentFilers"
+            class="radio-row click"
+            [class.sel]="selectedFilerId === filer.id"
+            (click)="selectFiler(filer.id)"
+          >
+            <td>
+              <input
+                type="radio"
+                name="filer"
+                [value]="filer.id"
+                [(ngModel)]="selectedFilerId"
+                [attr.aria-label]="filer.name"
+              />
+            </td>
+            <td>
+              <b>{{ filer.name }}</b>
+              <div *ngIf="filer.note" class="note">{{ filer.note }}</div>
+            </td>
+            <td>{{ filer.ein }}</td>
+            <td class="small">{{ filer.address }}</td>
+            <td class="small">
+              <span [class.muted]="filer.formsUsed === 'None'">{{
+                filer.formsUsed
+              }}</span>
+            </td>
+            <td>
+              <button
+                class="btn sm ghost"
+                (click)="editFiler($event, filer.id)"
+                [attr.aria-label]="'Edit ' + filer.name"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M4 20h4L19 9l-4-4L4 16z"></path>
+                </svg>
+                Edit
+              </button>
+            </td>
+          </tr>
+        </ng-container>
+
+        <!-- All Filers Group -->
+        <ng-container *ngIf="allFilers.length > 0">
+          <tr class="group-label">
+            <td colspan="6">All filers</td>
+          </tr>
+          <tr
+            *ngFor="let filer of allFilers"
+            class="radio-row click"
+            [class.sel]="selectedFilerId === filer.id"
+            (click)="selectFiler(filer.id)"
+          >
+            <td>
+              <input
+                type="radio"
+                name="filer"
+                [value]="filer.id"
+                [(ngModel)]="selectedFilerId"
+                [attr.aria-label]="filer.name"
+              />
+            </td>
+            <td>
+              <b>{{ filer.name }}</b>
+              <div *ngIf="filer.note" class="note">{{ filer.note }}</div>
+            </td>
+            <td>{{ filer.ein }}</td>
+            <td class="small">{{ filer.address }}</td>
+            <td class="small">
+              <span [class.muted]="filer.formsUsed === 'None'">{{
+                filer.formsUsed
+              }}</span>
+            </td>
+            <td>
+              <button
+                class="btn sm ghost"
+                (click)="editFiler($event, filer.id)"
+                [attr.aria-label]="'Edit ' + filer.name"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M4 20h4L19 9l-4-4L4 16z"></path>
+                </svg>
+                Edit
+              </button>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+
+
+</main>

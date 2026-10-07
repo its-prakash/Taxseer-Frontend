@@ -1,0 +1,150 @@
+<main id="wizBody">
+  <!-- Tax Year Selection Row -->
+  <div class="year-row">
+    <h2 class="year-heading">Tax year</h2>
+    <div class="seg" role="group" aria-label="Tax year">
+      <button 
+        *ngFor="let year of availableYears" 
+        [attr.data-y]="year" 
+        [attr.aria-pressed]="selectedYear === year"
+        [class.active]="selectedYear === year"
+        (click)="selectYear(year)">
+        {{ year }}
+      </button>
+    </div>
+    <span class="muted small">Current filing season.</span>
+  </div>
+
+  <div class="forms-wrap">
+    <!-- Main Forms Section -->
+    <div class="main-forms">
+      <div class="sec-h">
+        <h2>Form</h2>
+        <input 
+          class="search" 
+          id="formQ" 
+          [(ngModel)]="searchQuery" 
+          placeholder="Type a form number or what was paid, e.g. rent" 
+          aria-label="Find form" 
+        />
+      </div>
+
+      <div class="fgroup" id="fgroups">
+        <!-- Previously Filed Forms -->
+        <ng-container *ngIf="previousForms.length > 0">
+          <h3>Forms {{ filer.name }} filed before</h3>
+          <div class="fgrid">
+            <button 
+              *ngFor="let form of previousForms" 
+              class="fopt" 
+              [attr.data-form]="form.id" 
+              [attr.aria-pressed]="selectedForm === form.id"
+              [class.selected]="selectedForm === form.id"
+              (click)="selectForm(form.id)">
+              <span class="tagline">
+                <b>Form {{ form.id }}</b>
+                <span *ngIf="form.badge" class="pill p-info">{{ form.badge }}</span>
+              </span>
+              <span>{{ form.description }}</span>
+            </button>
+          </div>
+        </ng-container>
+
+        <!-- 1099 Series -->
+        <ng-container *ngIf="series1099Forms.length > 0">
+          <h3>1099 series</h3>
+          <div class="fgrid">
+            <button 
+              *ngFor="let form of series1099Forms" 
+              class="fopt" 
+              [attr.data-form]="form.id" 
+              [attr.aria-pressed]="selectedForm === form.id"
+              [class.selected]="selectedForm === form.id"
+              (click)="selectForm(form.id)">
+              <span class="tagline"><b>Form {{ form.id }}</b></span>
+              <span>{{ form.description }}</span>
+            </button>
+          </div>
+        </ng-container>
+
+        <!-- Wage Statements -->
+        <ng-container *ngIf="wageForms.length > 0">
+          <h3>Wage statements</h3>
+          <div class="fgrid">
+            <button 
+              *ngFor="let form of wageForms" 
+              class="fopt" 
+              [attr.data-form]="form.id" 
+              [attr.aria-pressed]="selectedForm === form.id"
+              [class.selected]="selectedForm === form.id"
+              (click)="selectForm(form.id)">
+              <span class="tagline"><b>Form {{ form.id }}</b></span>
+              <span>{{ form.description }}</span>
+            </button>
+          </div>
+        </ng-container>
+
+        <!-- ACA Forms -->
+        <ng-container *ngIf="acaForms.length > 0">
+          <h3>ACA</h3>
+          <div class="fgrid">
+            <button 
+              *ngFor="let form of acaForms" 
+              class="fopt" 
+              [attr.data-form]="form.id" 
+              [attr.aria-pressed]="selectedForm === form.id"
+              [class.selected]="selectedForm === form.id"
+              (click)="selectForm(form.id)">
+              <span class="tagline"><b>Form {{ form.id }}</b></span>
+              <span>{{ form.description }}</span>
+            </button>
+          </div>
+        </ng-container>
+
+        <!-- Extensions -->
+        <ng-container *ngIf="extensionForms.length > 0">
+          <h3>Extensions</h3>
+          <div class="fgrid">
+            <button 
+              *ngFor="let form of extensionForms" 
+              class="fopt" 
+              [attr.data-form]="form.id" 
+              [attr.aria-pressed]="selectedForm === form.id"
+              [class.selected]="selectedForm === form.id"
+              (click)="selectForm(form.id)">
+              <span class="tagline"><b>Form {{ form.id }}</b></span>
+              <span>{{ form.description }}</span>
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Sidebar / Aside -->
+    <aside class="aside">
+      <div class="card">
+        <h2 class="card-heading">Filer</h2>
+        <div class="kv">
+          <span>Name</span>
+          <b class="text-right">{{ filer.name }}</b>
+        </div>
+        <div class="kv">
+          <span>EIN</span>
+          <span>{{ filer.ein }}</span>
+        </div>
+        <div class="kv">
+          <span>Address</span>
+          <span class="text-right" [innerHTML]="filer.address"></span>
+        </div>
+        <button class="btn link" (click)="onChangeFiler()">Change filer</button>
+      </div>
+
+      <div class="card" id="formNote">
+        <h2 class="card-heading-sm">Pick a form</h2>
+        <div class="small muted">
+          Due dates and thresholds for the selected tax year show here.
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>

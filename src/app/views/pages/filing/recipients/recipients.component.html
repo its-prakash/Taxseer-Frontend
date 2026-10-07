@@ -1,0 +1,121 @@
+<main class="wiz-body" id="wizBody">
+  <!-- Header Section -->
+  <div class="sec-h">
+    <div>
+      <h2>Who gets a {{ formType }}?</h2>
+      <div class="muted small">
+        Recipients saved for {{ companyName }}. Select one or many; you'll enter amounts for all of them on one screen.
+      </div>
+    </div>
+    <div class="header-actions">
+      <input 
+        class="search" 
+        id="rq" 
+        [(ngModel)]="searchQuery"
+        placeholder="Name or last 4 of TIN" 
+        aria-label="Find recipient" 
+      />
+      <button class="btn link" id="toBulk" (click)="onImportExcel()">
+        Many recipients? Import from Excel
+      </button>
+      <button class="btn primary" id="addRec" (click)="onAddRecipient()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14M5 12h14"></path>
+        </svg>
+        Add recipient
+      </button>
+    </div>
+  </div>
+
+  <!-- Filter Controls & Actions Bar -->
+  <div class="filter-bar">
+    <div class="seg" role="group" aria-label="Show">
+      <button 
+        *ngFor="let filter of filterOptions"
+        [attr.data-rf]="filter.key"
+        [attr.aria-pressed]="activeFilter === filter.key"
+        [class.active]="activeFilter === filter.key"
+        (click)="setFilter(filter.key)">
+        {{ filter.label }}
+      </button>
+    </div>
+    
+    <span class="spacer"></span>
+
+    <button class="btn sm ghost" (click)="onSendW9Requests()">
+      Send W-9 requests
+    </button>
+    <button class="btn sm ghost" (click)="onExport()">
+      Export
+    </button>
+  </div>
+
+  <!-- Recipient Table Card -->
+  <div class="card">
+    <table class="rec-table">
+      <thead>
+        <tr>
+          <th class="col-cbx">
+            <input 
+              type="checkbox" 
+              class="cbx" 
+              id="rAll" 
+              [checked]="isAllSelected" 
+              (change)="toggleSelectAll($event)"
+              aria-label="Select all shown" 
+            />
+          </th>
+          <th>Recipient</th>
+          <th>TIN</th>
+          <th>Address</th>
+          <th>W-9</th>
+          <th>{{ formType }} {{ taxYear }}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="rtb">
+        <tr 
+          *ngFor="let recipient of filteredRecipients" 
+          class="click radio-row" 
+          [class.sel]="recipient.selected"
+          (click)="toggleRecipientSelection(recipient)">
+          <td class="col-cbx" (click)="$event.stopPropagation()">
+            <input 
+              type="checkbox" 
+              class="cbx" 
+              [(ngModel)]="recipient.selected" 
+              [attr.aria-label]="'Select ' + recipient.name" 
+            />
+          </td>
+          <td>
+            <span class="name">{{ recipient.name }}</span>
+            <div class="small muted">{{ recipient.type }}</div>
+          </td>
+          <td>
+            {{ recipient.tin }}
+            <div class="small muted">{{ recipient.tinType }}</div>
+          </td>
+          <td class="small" [innerHTML]="recipient.address"></td>
+          <td>
+            <span class="pill" [ngClass]="getW9PillClass(recipient.w9Status)">
+              {{ recipient.w9Status }}
+            </span>
+          </td>
+          <td>
+            <span [class.muted]="recipient.formStatus === 'None yet'" class="small">
+              {{ recipient.formStatus }}
+            </span>
+          </td>
+          <td class="text-right" (click)="$event.stopPropagation()">
+            <button 
+              class="btn sm ghost" 
+              [attr.data-fix]="recipient.id"
+              (click)="onEditRecipient(recipient)">
+              Edit
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main>

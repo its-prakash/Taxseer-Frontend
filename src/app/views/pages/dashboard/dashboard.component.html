@@ -1,9 +1,9 @@
 <main class="page">
   <div class="dash-head">
     <div>
-      <h1>Good afternoon, Mary</h1>
+      <h1 class="text-[24px] font-semibold">Good afternoon, Mary</h1>
       <div class="muted mt-1">
-        Tax year 2025 filing season. 1099-NEC and W-2 are due in days.
+        Tax year 2025 filing season. 1099-NEC and W-2 are due in 19 days.
       </div>
     </div>
   </div>
@@ -11,27 +11,27 @@
   <div class="dash-grid">
     <section class="card" aria-labelledby="h-resume">
       <div class="card-h">
-        <h2 id="h-resume">Continue where you left off</h2>
+        <h2 id="h-resume" class="text-[16px] font-semibold">Continue where you left off</h2>
         <span class="muted small">Work saves as pending automatically</span>
       </div>
       <div class="resume">
         <div class="what">
-          <div><b></b> <span class="muted">· · 2025</span></div>
-          <div class="small muted"></div>
+          <div><b>Tech International Corporation</b><span class="muted"> · 1099-NEC · 2025</span></div>
+          <div class="small muted">Manual entry. Mark Waugh. Edited today, 10:42 AM</div>
           <div class="prog"><span></span></div>
         </div>
-        <span class="small muted"> of ready</span>
+        <span class="small muted">0 of 1 ready</span>
         <button class="btn sm">Continue</button>
       </div>
     </section>
 
     <section class="filepanel" aria-labelledby="h-file">
       <div>
-        <h2 id="h-file">File new forms</h2>
+        <h2 id="h-file" class="font-semibold">File new forms</h2>
         <div class="sub">1099, W-2 and ACA for any filer on your account</div>
       </div>
-      <button class="choice main" id="goManual">
-        <span class="ci"></span>
+      <button class="choice main" id="goManual" (click)="goToNewFiling()">
+        <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></span>
         <span
           ><b>Manual entry</b
           ><span class="d"
@@ -39,17 +39,17 @@
             forms.</span
           ></span
         >
-        <span class="go"><kbd>N</kbd></span>
+        <span class="go"><kbd class>N</kbd><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </button>
       <button class="choice alt" id="goBulk">
-        <span class="ci"></span>
+        <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 9h16M4 15h16M10 3v18"/></svg></span>
         <span
           ><b>Bulk import</b
           ><span class="d"
             >Upload the TaxSeer Excel template or your own file.</span
           ></span
         >
-        <span class="go"><kbd>I</kbd></span>
+        <span class="go"><kbd class>I</kbd><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
       </button>
       <details>
         <summary>Download Excel templates</summary>
@@ -95,13 +95,13 @@
           <span
             ><span class="dl-date">Feb 2</span> 1099-NEC, W-2 and recipient
             copies</span
-          ><span class="pill p-warn"> days</span>
+          ><span class="pill p-warn">19 days</span>
         </div>
         <div>
           <span
             ><span class="dl-date">Mar 31</span> Other 1099s and ACA
             e-file</span
-          ><span class="pill p-neutral"> days</span>
+          ><span class="pill p-neutral">76 days</span>
         </div>
       </div>
     </section>
@@ -116,9 +116,9 @@
     </section>
   </div>
 
-  <section class="card" aria-labelledby="h-filers">
+  <section class="card">
     <div class="card-h">
-      <h2 id="h-filers">Filers</h2>
+      <h2 id="h-filers" class="text-[16px] font-[600]">Filers</h2>
       <div class="flex gap-2">
         <input
           class="search"
@@ -129,42 +129,65 @@
       </div>
     </div>
     <div class="overflow-x-auto">
-      <table class="min-w-[900px]">
+      <table class="w-full min-w-[900px]">
         <thead>
-          <tr>
-            <th>Name / company</th>
-            <th>EIN</th>
-            <th>Forms used</th>
-            <th class="num">Pending</th>
-            <th class="num">Filed 2025</th>
-            <th>W-9s received</th>
-            <th></th>
+          <tr
+            class="via-inherit bg-[#f7f9fb] table-row align-[inherit] unicode-bidi-isolate border-[inherit] text-left"
+          >
+            <th
+              class="px-3 py-[9px] font-semibold text-[#45505e] text-[12.5px] border-b border-[#d5dce4]"
+            >
+              Name / company
+            </th>
+            <th
+              class="px-3 py-[9px] font-semibold text-[#45505e] text-[12.5px] border-b border-[#d5dce4]"
+            >
+              EIN
+            </th>
+            <th
+              class="px-3 py-[9px] font-semibold text-[#45505e] text-[12.5px] border-b border-[#d5dce4]"
+            >
+              Forms used
+            </th>
+            <th
+              class="num px-3 py-[9px] font-semibold text-[#45505e] text-[12.5px] border-b border-[#d5dce4]"
+            >
+              Pending
+            </th>
+            <th
+              class="num px-3 py-[9px] font-semibold text-[#45505e] text-[12.5px] border-b border-[#d5dce4]"
+            >
+              Filed 2025
+            </th>
+            <th
+              class="px-3 py-[9px] font-semibold text-[#45505e] text-[12.5px] border-b border-[#d5dce4]"
+            >
+              W-9s received
+            </th>
+            <th
+              class="px-3 py-[9px] font-semibold text-[#45505e] text-[12.5px] border-b border-[#d5dce4]"
+            ></th>
           </tr>
         </thead>
         <tbody id="dashFilers">
-          <td>
-            <a class="fname"></a>
-            <div class="small muted"></div>
+          <tr>
+             <td class="px-3 py-[11px]">
+            <a class="fname cursor-pointer">Tech International Corporation</a>
+            <div class="small muted">Gaithersburg, MD</div>
           </td>
-          <td></td>
-          <td class="small"><span class="muted">None yet</span></td>
-          <td class="num"></td>
-          <td class="num"></td>
-          <td>
-            <a class="btn link"></a><span class="pill p-warn">waiting</span
-            ><span class="pill p-ok">All in</span
-            ><span class="muted">No requests</span>
+          <td class="px-3 py-[11px]">11-1111111</td>
+          <td class="small px-3 py-[11px]"><span class="muted">1099-NEC, 1099-MISC</span></td>
+          <td class="num px-3 py-[11px]">1</td>
+          <td class="num px-3 py-[11px]">29</td>
+          <td class="px-3 py-[11px]">
+            <a class="btn link cursor-pointer">4 of 5</a>
+            <span class="pill p-warn">1 waiting</span>
+            <!-- <span class="pill p-ok">All in</span>
+            <span class="muted">No requests</span> -->
           </td>
-          <td style="text-align: right; white-space: nowrap">
+          <td class="text-right whitespace-nowrap px-3 py-[11px] flex items-center">
             <button class="btn sm ghost">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M4 20h4L19 9l-4-4L4 16z" /></svg
-              >Edit
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16px"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>Edit
             </button>
             <button class="btn sm">
               <svg
@@ -173,14 +196,14 @@
                 stroke="currentColor"
                 stroke-width="2"
               >
-                <path d="M12 5v14M5 12h14" /></svg
-              >New filing
+                <path d="M12 5v14M5 12h14" /></svg>New filing
             </button>
           </td>
-          <td colspan="7" class="empty">
+          <!-- <td colspan="7" class="empty">
             No filer matches.
             <button class="btn sm" data-addfiler>Add filer</button>
-          </td>
+          </td> -->
+          </tr>
         </tbody>
       </table>
     </div>
