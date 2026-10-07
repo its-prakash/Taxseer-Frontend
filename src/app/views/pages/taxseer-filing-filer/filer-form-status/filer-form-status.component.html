@@ -1,0 +1,102 @@
+<main class="page" id="fpBody" style="padding-top:20px">
+  <!-- Top Header Controls -->
+  <div class="sec-h">
+    <label class="yr">
+      <span class="small muted">Tax year</span>
+      <select class="sel-st" id="fpYear" [(ngModel)]="taxYear" style="width:90px">
+        <option *ngFor="let year of taxYears" [value]="year">{{ year }}</option>
+      </select>
+    </label>
+
+    <span class="small muted">
+      Every form for {{ taxYear }}, by where it is in the filing process. Click a number to see those forms.
+    </span>
+  </div>
+
+  <!-- Table Card -->
+  <div class="card" style="overflow-x:auto">
+    <table style="min-width:760px">
+      <thead>
+        <tr>
+          <th>Form</th>
+          <th class="num">Pending</th>
+          <th class="num">Completed</th>
+          <th class="num">In cart</th>
+          <th class="num">Submitted</th>
+          <th class="num">Accepted</th>
+          <th class="num">Rejected</th>
+          <th class="num">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Dynamic Form Rows -->
+        <tr *ngFor="let row of formSummaries">
+          <td><b>{{ row.formType }}</b></td>
+
+          <!-- Pending -->
+          <td class="num">
+            <button *ngIf="row.pending > 0" class="link-num" (click)="onNumberClick(row.formType, 'pending')">
+              {{ row.pending }}
+            </button>
+            <span *ngIf="row.pending === 0" class="muted">–</span>
+          </td>
+
+          <!-- Completed -->
+          <td class="num">
+            <button *ngIf="row.completed > 0" class="link-num" (click)="onNumberClick(row.formType, 'completed')">
+              {{ row.completed }}
+            </button>
+            <span *ngIf="row.completed === 0" class="muted">–</span>
+          </td>
+
+          <!-- In Cart -->
+          <td class="num">
+            <button *ngIf="row.cart > 0" class="link-num" (click)="onNumberClick(row.formType, 'cart')">
+              {{ row.cart }}
+            </button>
+            <span *ngIf="row.cart === 0" class="muted">–</span>
+          </td>
+
+          <!-- Submitted -->
+          <td class="num">
+            <button *ngIf="row.submitted > 0" class="link-num" (click)="onNumberClick(row.formType, 'submitted')">
+              {{ row.submitted }}
+            </button>
+            <span *ngIf="row.submitted === 0" class="muted">–</span>
+          </td>
+
+          <!-- Accepted -->
+          <td class="num">
+            <button *ngIf="row.accepted > 0" class="link-num" (click)="onNumberClick(row.formType, 'accepted')">
+              {{ row.accepted }}
+            </button>
+            <span *ngIf="row.accepted === 0" class="muted">–</span>
+          </td>
+
+          <!-- Rejected -->
+          <td class="num">
+            <button *ngIf="row.rejected > 0" class="link-num" (click)="onNumberClick(row.formType, 'rejected')">
+              {{ row.rejected }}
+            </button>
+            <span *ngIf="row.rejected === 0" class="muted">–</span>
+          </td>
+
+          <!-- Row Total -->
+          <td class="num"><b>{{ getRowTotal(row) }}</b></td>
+        </tr>
+
+        <!-- Totals Summary Row -->
+        <tr class="totals">
+          <td><b>{{ totals.formType }}</b></td>
+          <td class="num"><b>{{ totals.pending || '–' }}</b></td>
+          <td class="num"><b>{{ totals.completed || '–' }}</b></td>
+          <td class="num"><b>{{ totals.cart || '–' }}</b></td>
+          <td class="num"><span *ngIf="!totals.submitted" class="muted">–</span><b *ngIf="totals.submitted">{{ totals.submitted }}</b></td>
+          <td class="num"><b>{{ totals.accepted || '–' }}</b></td>
+          <td class="num"><span *ngIf="!totals.rejected" class="muted">–</span><b *ngIf="totals.rejected">{{ totals.rejected }}</b></td>
+          <td class="num"><b>{{ getRowTotal(totals) }}</b></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main>

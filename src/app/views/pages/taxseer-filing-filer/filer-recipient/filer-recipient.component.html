@@ -1,0 +1,108 @@
+<main class="recipients-container content-body" >
+    <!-- Top Action Bar -->
+    <div class="action-bar">
+        <div class="search-box">
+            <input type="text" placeholder="Name, city or last 4 of TIN" [(ngModel)]="searchQuery"
+                (input)="onSearch()" />
+        </div>
+
+        <div class="button-group">
+            <a class="btn-link" href="#">W-9 requests</a>
+            <button class="btn-text" (click)="exportRecipients()">Export</button>
+            <button class="btn-outline" [disabled]="!hasSelection()">Copy to another filer</button>
+            <button class="btn-outline" [disabled]="!hasSelection()">Request W-9</button>
+            <button class="btn-outline" [disabled]="!hasSelection()">Delete</button>
+            <button class="btn-primary" (click)="isDrawerOpen = true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M12 5v14M5 12h14"></path>
+                </svg>
+                Add recipient
+            </button>
+        </div>
+    </div>
+
+    <!-- Recipients Data Table Card -->
+    <div class="table-card">
+        <table class="recipients-table">
+            <thead>
+                <tr>
+                    <th class="col-checkbox">
+                        <input type="checkbox" [checked]="isAllSelected()" (change)="selectAll($event)" />
+                    </th>
+                    <th class="col-recipient">Recipient</th>
+                    <th class="col-tin">TIN</th>
+                    <th class="col-address">Address</th>
+                    <th class="col-w9">W-9</th>
+                    <th class="col-forms">Forms 2025</th>
+                    <th class="col-actions"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of recipients">
+                    <td class="col-checkbox">
+                        <input type="checkbox" [(ngModel)]="item.selected" />
+                    </td>
+
+                    <!-- Recipient Name & Details -->
+                    <td class="col-recipient">
+                        <div class="recipient-name">{{ item.name }}</div>
+                        <div class="sub-text">
+                            {{ item.type }}
+                            <span *ngIf="item.email"> · {{ item.email }}</span>
+                        </div>
+                    </td>
+
+                    <!-- TIN -->
+                    <td class="col-tin">
+                        <div class="tin-value">{{ item.tin }}</div>
+                        <div class="sub-text">{{ item.tinType }}</div>
+                    </td>
+
+                    <!-- Address & Validation Warnings -->
+                    <td class="col-address">
+                        <div>{{ item.street }}</div>
+                        <div>{{ item.cityStateZip }}</div>
+                        <div *ngIf="item.issue" class="issue-text">
+                            {{ item.issue }}
+                        </div>
+                    </td>
+
+                    <!-- W-9 Status Pill & Actions -->
+                    <td class="col-w9">
+                        <span class="pill" [ngClass]="getW9Class(item.w9Status)">
+                            {{ item.w9Status }}
+                        </span>
+                        <div *ngIf="item.w9Status === 'Requested'">
+                            <button class="btn-action-link" (click)="resendW9(item)">Resend</button>
+                        </div>
+                        <div *ngIf="item.w9Status === 'Not requested'">
+                            <button class="btn-action-link" (click)="requestW9(item)">Request</button>
+                        </div>
+                    </td>
+
+                    <!-- Forms 2025 -->
+                    <td class="col-forms">
+                        {{ item.forms2025 !== null ? item.forms2025 : '–' }}
+                    </td>
+
+                    <!-- Action Button -->
+                    <td class="col-actions">
+                        <button [class.btn-fix]="item.issue" [class.btn-edit]="!item.issue" (click)="onAction(item)">
+                            {{ item.issue ? 'Fix' : 'Edit' }}
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+
+
+
+<!-- Side add recieptent drawer -->
+ <app-add-recipient-drawer
+  [isOpen]="isDrawerOpen"
+  (close)="isDrawerOpen = false"
+  (save)="handleRecipientSave($event)">
+</app-add-recipient-drawer>

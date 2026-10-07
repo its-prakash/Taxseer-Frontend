@@ -1,0 +1,86 @@
+<main class="recipients-container content-body" >
+            <section class="card">
+                <!-- Toolbar Filters -->
+                <div class="ftool">
+                    <label class="yr">
+                        <span class="small muted">Tax year</span>
+                        <select class="sel-st" [(ngModel)]="taxYear">
+                            <option *ngFor="let year of taxYears" [value]="year">{{ year }}</option>
+                        </select>
+                    </label>
+
+                    <label class="yr">
+                        <span class="small muted">Form</span>
+                        <select class="sel-st" [(ngModel)]="selectedForm" style="width: 140px;">
+                            <option value="all">All forms</option>
+                            <option value="1099-NEC">1099-NEC</option>
+                            <option value="1099-MISC">1099-MISC</option>
+                        </select>
+                    </label>
+
+                    <input type="search" class="search" placeholder="Recipient name or last 4 of TIN"
+                        [(ngModel)]="searchQuery" aria-label="Search forms" style="min-width: 250px; height: 36px;">
+
+                    <span style="flex: 1;"></span>
+
+                    <button class="btn sm" (click)="applyForExtension()">
+                        Apply for extension (8809)
+                    </button>
+                </div>
+
+                <!-- Status Pipeline Tabs -->
+                <div class="pipe" role="tablist" aria-label="Form status">
+                    <button *ngFor="let tab of statusTabs" role="tab" class="pstep"
+                        [class.prej]="tab.key === 'rejected'" [attr.aria-selected]="activeTab === tab.key"
+                        (click)="selectTab(tab.key)">
+                        <span class="pn">{{ tab.count }}</span>
+                        <span class="pl">{{ tab.label }}</span>
+                        <span class="ph">{{ tab.subtext }}</span>
+                    </button>
+                </div>
+
+                <!-- Info Header -->
+                <div class="pbar">
+                    <span class="small muted">Open a form to finish it. It moves to Completed when every required box is
+                        filled.</span>
+                </div>
+
+                <!-- Table -->
+                <div style="overflow-x: auto;">
+                    <table style="min-width: 900px;">
+                        <thead>
+                            <tr>
+                                <th>Form</th>
+                                <th>Recipient</th>
+                                <th>TIN</th>
+                                <th class="num">Box 1</th>
+                                <th>Status</th>
+                                <th>Last change</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of filteredFilings">
+                                <td><b>{{ item.formType }}</b></td>
+                                <td>{{ item.recipientName }}</td>
+                                <td>{{ item.tin }}</td>
+                                <td class="num">
+                                    <span *ngIf="item.box1Amount !== null">${{ item.box1Amount }}</span>
+                                    <span *ngIf="item.box1Amount === null" class="muted">–</span>
+                                </td>
+                                <td>
+                                    <span class="pill p-warn" *ngIf="item.status === 'pending'">Pending</span>
+                                    <div class="note" *ngIf="item.statusNote">{{ item.statusNote }}</div>
+                                </td>
+                                <td class="small muted">{{ item.lastChanged }}</td>
+                                <td style="text-align: right; white-space: nowrap;">
+                                    <button class="btn sm primary" (click)="onFinish(item)">Finish</button>
+                                    <button class="btn sm ghost" (click)="onPreview(item)">Preview</button>
+                                    <button class="btn sm ghost danger" (click)="onDelete(item)">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>

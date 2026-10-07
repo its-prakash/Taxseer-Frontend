@@ -1,0 +1,139 @@
+:host {
+  --text-muted: #6c757d;
+  --border-color: #e2e8f0;
+  --bg-card: #ffffff;
+  --primary-color: #1a365d;
+}
+
+.page {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #2d3748;
+}
+
+.small {
+  font-size: 13px;
+}
+
+.muted {
+  color: var(--text-muted);
+}
+
+/* Header Section */
+.sec-h {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.yr {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sel-st {
+  height: 36px;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  padding: 0 8px;
+  font-size: 14px;
+  background-color: #fff;
+  color: #2d3748;
+}
+
+/* Segmented Control Buttons */
+.seg {
+  display: inline-flex;
+  background: #edf2f7;
+  padding: 3px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.seg button {
+  border: none;
+  background: transparent;
+  padding: 5px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #4a5568;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.seg button[aria-pressed="true"] {
+  background: #ffffff;
+  color: var(--primary-color);
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Export Button */
+.btn.ghost {
+  background: transparent;
+  border: none;
+  color: var(--primary-color);
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+.btn.ghost:hover {
+  background-color: #f7fafc;
+}
+
+/* Card Container */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  padding: 4px;
+}
+
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th {
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  padding: 12px 16px;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.num {
+  text-align: center;
+}
+
+/* Totals Row */
+tr.totals td {
+  border-top: 1px solid var(--border-color);
+  border-bottom: none;
+  font-weight: 700;
+  background-color: #fafafa;
+}
+
+thead{
+    color: var(--ink-2);
+    background-color: var(--soft);
+}
+
+tbody{
+    background-color: #fff;
+}

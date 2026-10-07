@@ -1,0 +1,77 @@
+<main class="page" id="fpBody" style="padding-top:20px">
+  <!-- Top Control Header Card -->
+  <div class="card toolbar-card">
+    <label class="yr">
+      <span class="small muted">Tax year</span>
+      <select class="sel-st" id="fpYear" [(ngModel)]="selectedYear" style="width:90px">
+        <option *ngFor="let year of taxYears" [value]="year">{{ year }}</option>
+      </select>
+    </label>
+
+    <b class="label-new-dl">New download</b>
+
+    <label class="sr-only" for="dlType">What to download</label>
+    <select id="dlType" class="sel-st" [(ngModel)]="selectedDownloadType" style="width:260px">
+      <option *ngFor="let option of downloadOptions" [value]="option">{{ option }}</option>
+    </select>
+
+    <span class="small muted">
+      {{ formsCountForYear }} filed forms for {{ selectedYear }}, in one zip file
+    </span>
+
+    <button class="btn sm primary btn-prepare" id="dlGo" (click)="prepareDownload()">
+      Prepare download
+    </button>
+  </div>
+
+  <!-- Downloads History Table Card -->
+  <div class="card" style="overflow-x:auto">
+    <table style="min-width:760px">
+      <thead>
+        <tr>
+          <th>Created</th>
+          <th>By</th>
+          <th>Contents</th>
+          <th class="num">Forms</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of downloadHistory">
+          <td>{{ item.createdDate }}</td>
+          <td>{{ item.createdBy }}</td>
+          <td>{{ item.contents }}</td>
+          <td class="num">{{ item.formsCount }}</td>
+          <td>
+            <span class="pill" [ngClass]="{
+              'p-ok': item.status === 'Ready',
+              'p-neutral': item.status === 'Expired'
+            }">
+              {{ item.status }}
+            </span>
+            <div *ngIf="item.statusNote" class="small muted status-note">
+              {{ item.statusNote }}
+            </div>
+          </td>
+          <td style="text-align:right">
+            <button 
+              *ngIf="item.status === 'Ready'" 
+              class="btn sm btn-outline" 
+              (click)="downloadZip(item)"
+            >
+              Download zip
+            </button>
+          </td>
+        </tr>
+
+        <!-- Empty State -->
+        <tr *ngIf="downloadHistory.length === 0">
+          <td colspan="6" style="text-align:center; padding: 20px;" class="small muted">
+            No downloads available.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main>

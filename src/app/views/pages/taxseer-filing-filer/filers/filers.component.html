@@ -1,0 +1,193 @@
+<!-- filer-dashboard.component.html -->
+<div class="main-container">
+
+    <div class="dashboard-container">
+        <!-- Header Section -->
+        <header class="dashboard-header">
+            <div class="header-main">
+                <div class="company-select-group">
+                    <h1 class="company-name">{{ filerDetails.legalName }}</h1>
+                    <button class="dropdown-btn" aria-label="Select Filer">
+                        <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+                            <path d="M1 1.5L6 6.5L11 1.5" stroke="#4A5568" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" (click)="onPreviousFiler()">
+                        <svg width="6" height="10" viewBox="0 0 6 10" fill="none">
+                            <path d="M5 9L1 5L5 1" stroke="#A0AEC0" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        Previous filer
+                    </button>
+                    <button class="btn btn-outline" (click)="onNextFiler()">
+                        Next filer
+                        <svg width="6" height="10" viewBox="0 0 6 10" fill="none">
+                            <path d="M1 9L5 5L1 1" stroke="#2D3748" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="company-subtext">
+                EIN {{ filerDetails.ein }} · {{ filerDetails.addressLine }}
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="tabs-nav">
+            <div *ngFor="let tab of tabs" class="tab-item" [class.active]="activeTab === tab.id"
+                (click)="selectTab(tab.id)">
+                <span class="tab-label">{{ tab.label }}</span>
+                <span *ngIf="tab.badge !== null" class="tab-badge">{{ tab.badge }}</span>
+            </div>
+        </nav>
+
+        <!-- Tab Content Body -->
+        <main *ngIf="activeTab === 'Filer'" class="content-body">
+            <!-- Top Metric Cards -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-number">{{ metrics.recipientsCount }}</div>
+                    <div class="metric-sub">recipients, {{ metrics.w9Waiting }} W-9 waiting</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number text-orange">{{ metrics.pendingForms }}</div>
+                    <div class="metric-sub">pending forms</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">{{ metrics.cartItems }}</div>
+                    <div class="metric-sub">ready or in cart</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number">{{ metrics.acceptedCount }}</div>
+                    <div class="metric-sub">accepted for {{ metrics.acceptedYear }}</div>
+                </div>
+            </div>
+
+            <!-- 2-Column Info Grid -->
+            <div class="info-grid">
+                <!-- Taxpayer Identification Card -->
+                <section class="info-card">
+                    <div class="card-header">
+                        <h2>Taxpayer identification</h2>
+                        <button class="btn-edit">Edit</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-row">
+                            <span class="info-label">TIN type</span>
+                            <span class="info-value">{{ filerDetails.tinType }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">EIN</span>
+                            <span class="info-value">{{ filerDetails.ein }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">TIN masking on recipient copies</span>
+                            <span class="info-value">{{ filerDetails.tinMasking }}</span>
+                        </div>
+                        <p class="irs-disclaimer">
+                            Name and EIN must match IRS records exactly, or returns are rejected.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Name and Address Card -->
+                <section class="info-card">
+                    <div class="card-header">
+                        <h2>Name and address</h2>
+                        <button class="btn-edit">Edit</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-row">
+                            <span class="info-label">Legal name</span>
+                            <span class="info-value">{{ filerDetails.legalName }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Filer name 2</span>
+                            <span class="info-value text-muted">{{ filerDetails.filerName2 }}</span>
+                        </div>
+                        <div class="info-row align-top">
+                            <span class="info-label">Address</span>
+                            <span class="info-value multiline">{{ filerDetails.addressMultiline }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Country</span>
+                            <span class="info-value">{{ filerDetails.country }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Phone</span>
+                            <span class="info-value text-muted">{{ filerDetails.phone }}</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Contact and State Card -->
+                <section class="info-card">
+                    <div class="card-header">
+                        <h2>Contact and state</h2>
+                        <button class="btn-edit">Edit</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-row">
+                            <span class="info-label">Contact email</span>
+                            <span class="info-value">{{ filerDetails.contactEmail }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Payer state ID</span>
+                            <span class="info-value">{{ filerDetails.payerStateId }}</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Forms Filed Before Card -->
+                <section class="info-card">
+                    <div class="card-header">
+                        <h2>Forms filed before</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="forms-pills-row">
+                            <span *ngFor="let form of filerDetails.formsFiledBefore" class="form-pill">
+                                {{ form }}
+                            </span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+       <main *ngIf="activeTab === 'Recipients'">
+            <app-filer-recipient></app-filer-recipient>
+       </main>
+
+        <main *ngIf="activeTab === 'Filings'">
+            <app-filer-filings></app-filer-filings>
+        </main>
+
+        <main *ngIf="activeTab === 'Orders'">
+            <app-filer-orders></app-filer-orders>
+        </main>
+
+        <main *ngIf="activeTab === 'Forms status'">
+            <app-filer-form-status></app-filer-form-status>
+        </main>
+
+        <main *ngIf="activeTab === 'Downloads'">
+            <app-filer-download></app-filer-download>
+        </main>
+
+        <main *ngIf="activeTab === 'Summary'">
+            <app-filer-summary></app-filer-summary>
+        </main>
+
+        <!-- Orange Floating Action Button -->
+        <button class="fab-chat" aria-label="Open Chat">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+        </button>
+    </div>
+</div>

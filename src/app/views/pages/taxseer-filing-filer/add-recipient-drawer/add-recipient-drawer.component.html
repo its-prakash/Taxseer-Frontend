@@ -1,0 +1,117 @@
+<!-- Backdrop Blur Overlay -->
+<div class="drawer-backdrop" *ngIf="isOpen" (click)="onClose()"></div>
+
+<!-- Slide-Over Sidebar Panel -->
+<div class="drawer-panel" [class.open]="isOpen">
+    <!-- Header -->
+    <div class="drawer-header">
+        <h3>Add recipient</h3>
+        <button class="btn-close" (click)="onClose()" aria-label="Close panel">&times;</button>
+    </div>
+
+    <!-- Scrollable Form Body -->
+    <div class="drawer-body">
+        <!-- Taxpayer Identification Type -->
+        <div class="form-group">
+            <label class="section-label">Taxpayer identification</label>
+            <div class="radio-group">
+                <label class="radio-card" [class.selected]="formData.tinType === 'SSN'">
+                    <input type="radio" name="tinType" value="SSN" [(ngModel)]="formData.tinType" />
+                    <span>SSN (individual)</span>
+                </label>
+                <label class="radio-card" [class.selected]="formData.tinType === 'EIN'">
+                    <input type="radio" name="tinType" value="EIN" [(ngModel)]="formData.tinType" />
+                    <span>EIN (business)</span>
+                </label>
+                <label class="radio-card" [class.selected]="formData.tinType === 'PENDING'">
+                    <input type="radio" name="tinType" value="PENDING" [(ngModel)]="formData.tinType" />
+                    <span>Don't have it yet</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- TIN Input Field -->
+        <div class="form-group" *ngIf="formData.tinType !== 'PENDING'">
+            <label class="field-label">{{ formData.tinType }}</label>
+            <input type="text" class="form-control"
+                [placeholder]="formData.tinType === 'SSN' ? '123-45-6789' : '12-3456789'" [(ngModel)]="formData.tin" />
+        </div>
+
+        <!-- Name Fields -->
+        <div class="form-group">
+            <label class="section-label">Name</label>
+            <div class="grid-3">
+                <div>
+                    <label class="field-label">First name</label>
+                    <input type="text" class="form-control" [(ngModel)]="formData.firstName" />
+                </div>
+                <div>
+                    <label class="field-label">Middle</label>
+                    <input type="text" class="form-control" [(ngModel)]="formData.middleName" />
+                </div>
+                <div>
+                    <label class="field-label">Last name</label>
+                    <input type="text" class="form-control" [(ngModel)]="formData.lastName" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Mailing Address -->
+        <div class="form-group">
+            <label class="section-label">Mailing address</label>
+
+            <div class="field-margin">
+                <label class="field-label">Country</label>
+                <input type="text" class="form-control" [(ngModel)]="formData.country" readonly />
+            </div>
+
+            <div class="field-margin">
+                <label class="field-label">Street address</label>
+                <input type="text" class="form-control" [(ngModel)]="formData.streetAddress" />
+            </div>
+
+            <div class="field-margin">
+                <label class="field-label">Apt, suite (optional)</label>
+                <input type="text" class="form-control" [(ngModel)]="formData.aptSuite" />
+            </div>
+
+            <div class="grid-address">
+                <div>
+                    <label class="field-label">City</label>
+                    <input type="text" class="form-control" [(ngModel)]="formData.city" />
+                </div>
+                <div>
+                    <label class="field-label">State</label>
+                    <select class="form-control" [(ngModel)]="formData.state">
+                        <option value="">Select</option>
+                        <option *ngFor="let st of states" [value]="st">{{ st }}</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="field-label">ZIP</label>
+                    <input type="text" class="form-control" [(ngModel)]="formData.zip" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Delivery / Email -->
+        <div class="form-group">
+            <label class="section-label">Delivery</label>
+            <div class="field-margin">
+                <label class="field-label">Email (optional)</label>
+                <input type="email" class="form-control" [(ngModel)]="formData.email" />
+                <span class="help-text">Used for W-9 requests and electronic copies.</span>
+
+                <label class="chk"><input type="checkbox" id="p-cons"> Recipient consented to receive copies
+                    electronically</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sticky Footer Action Bar -->
+    <div class="drawer-footer">
+        <button class="btn btn-secondary" (click)="onClose()">Cancel</button>
+        <button class="btn btn-outline-primary" (click)="onSave(true)">Save and request W-9</button>
+        <button class="btn btn-primary" (click)="onSave(false)">Save and select</button>
+    </div>
+</div>

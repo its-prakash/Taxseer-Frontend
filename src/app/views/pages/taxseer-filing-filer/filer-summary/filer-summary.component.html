@@ -1,0 +1,78 @@
+<main class="page" id="fpBody" style="padding-top:20px">
+  <!-- Section Header -->
+  <div class="sec-h">
+    <div style="display:flex; gap:10px; align-items:center">
+      <!-- Tax Year Selector -->
+      <label class="yr">
+        <span class="small muted">Tax year</span>
+        <select class="sel-st" id="fpYear" [(ngModel)]="selectedYear" style="width:90px">
+          <option *ngFor="let year of taxYears" [value]="year">{{ year }}</option>
+        </select>
+      </label>
+
+      <!-- Segmented Control Buttons -->
+      <div class="seg" role="group" aria-label="Report">
+        <button 
+          type="button"
+          [attr.aria-pressed]="activeSegment === 'filed'" 
+          (click)="setSegment('filed')"
+        >
+          Filed
+        </button>
+        <button 
+          type="button"
+          [attr.aria-pressed]="activeSegment === 'pending'" 
+          (click)="setSegment('pending')"
+        >
+          Not filed yet
+        </button>
+      </div>
+    </div>
+
+    <!-- Export Action -->
+    <button class="btn sm ghost export-btn" (click)="exportReport()">
+      Export report
+    </button>
+  </div>
+
+  <!-- Summary Table Card -->
+  <div class="card" style="overflow-x:auto">
+    <table style="min-width:640px">
+      <thead>
+        <tr>
+          <th>Form</th>
+          <th class="num">Forms</th>
+          <th class="num">Recipients</th>
+          <th class="num">Total Box 1</th>
+          <th class="num">Federal withheld</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Data Rows -->
+        <tr *ngFor="let item of reportData">
+          <td><b>{{ item.formType }}</b></td>
+          <td class="num">{{ item.formsCount }}</td>
+          <td class="num">{{ item.recipientsCount }}</td>
+          <td class="num">${{ item.totalBox1 | number:'1.2-2' }}</td>
+          <td class="num">${{ item.federalWithheld | number:'1.2-2' }}</td>
+        </tr>
+
+        <!-- Totals Summary Row -->
+        <tr class="totals">
+          <td><b>{{ totals.formType }}</b></td>
+          <td class="num"><b>{{ totals.formsCount }}</b></td>
+          <td class="num"><b>{{ totals.recipientsCount }}</b></td>
+          <td class="num"><b>${{ totals.totalBox1 | number:'1.2-2' }}</b></td>
+          <td class="num"><b>${{ totals.federalWithheld | number:'1.2-2' }}</b></td>
+        </tr>
+
+        <!-- Empty State -->
+        <tr *ngIf="reportData.length === 0">
+          <td colspan="5" style="text-align:center; padding: 20px;" class="small muted">
+            No records found for this tax year.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
