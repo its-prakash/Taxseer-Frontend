@@ -1,1 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+
+:root{
+  --canvas:#EDF0F3; --paper:#FFFFFF; --ink:#17212E; --ink-2:#45505E; --ink-3:#5F6A78;
+  --line:#D5DCE4; --line-2:#E7EBF0; --hover:#F5F7FA; --soft:#F7F9FB;
+  --navy:#1C3F6E; --navy-2:#2A5391; --navy-tint:#E6EDF7;
+  --amber:#8F4C00; --amber-tint:#FCEFD9;
+  --red:#B3261E; --red-tint:#FBE7E5;
+  --green:#1B6B46; --green-tint:#E0F1E8;
+  --blue:#2E6CB5; --blue-tint:#E3EEF9;
+  --r:6px; --font:'IBM Plex Sans','Segoe UI',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--font);font-size:14px;line-height:1.45;color:var(--ink);background:var(--canvas);font-variant-numeric:tabular-nums}
