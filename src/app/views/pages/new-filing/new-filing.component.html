@@ -1,0 +1,101 @@
+<div class="wiz-head">
+  <div class="inner">
+    <div class="wiz-title">
+      <h1 class="text-[24px] leading-[-0.1em] font-semibold">
+        New filing<span class="mode-pill">Manual entry</span>
+      </h1>
+      <div class="flex gap-2 items-center">
+        <!-- <span class="saved" id="saved">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+          >
+            <path d="M5 12l5 5L20 7" />
+          </svg>
+        </span> -->
+
+        <button class="btn sm" id="exitBtn">Save and exit</button>
+      </div>
+    </div>
+    <nav class="steps" aria-label="Filing steps">
+      <!-- <step -->
+      <button class="step cur">
+        <span class="dot">1</span>
+        <span class="min-w-[0]">
+            <span class="t">Filer</span>
+            <span class="s">Tech International Corporation</span>
+        </span>
+      </button>
+
+      <button class="step">
+        <span class="dot">2</span>
+        <span class="min-w-[0]">
+            <span class="t">Form and year</span>
+            <span class="s">Choose tax year and form</span></span>
+      </button>
+      <button class="step">
+        <span class="dot">3</span>
+        <span class="min-w-[0]">
+            <span class="t">Recipients</span>
+            <span class="s">Choose who gets a form</span></span>
+      </button>
+      <button class="step">
+        <span class="dot">4</span>
+        <span class="min-w-[0]">
+            <span class="t">Form details</span>
+            <span class="s">Enter box amounts</span></span>
+      </button>
+      <button class="step">
+        <span class="dot">5</span>
+        <span class="min-w-[0]">
+            <span class="t">Review</span>
+            <span class="s">Check and add to cart</span></span>
+      </button>
+    </nav>
+  </div>
+</div>
+<main class="wiz-body" id="wizBody">
+    <!-- <app-dashboard-filers></app-dashboard-filers> -->
+    <!-- <app-form-year></app-form-year> -->
+     <!-- <app-recipients></app-recipients> -->
+      <!-- <app-form-details></app-form-details> -->
+       <!-- <app-review></app-review> -->
+        <app-add-filer></app-add-filer>
+
+</main>
+
+  <footer class="wiz-foot">
+    <div class="inner">
+      <button
+        class="btn ghost"
+        id="backBtn"
+        [style.visibility]="showBackButton ? 'visible' : 'hidden'"
+        (click)="onBack()"
+      >
+        Back
+      </button>
+
+      <span class="msg" id="footMsg">
+        Filing for <b>{{ selectedFilerName }}</b
+        >, EIN {{ selectedFilerEin }}
+      </span>
+
+      <button class="btn primary" id="nextBtn" (click)="onContinue()">
+        Continue
+      </button>
+    </div>
+  </footer>
+
+<!-- <div class="wiz-foot">
+  <div class="inner">
+    <button class="btn" id="backBtn">Back</button>
+    <span class="msg" id="footMsg"></span>
+    <button class="btn primary" id="nextBtn"></button>
+  </div>
+</div> -->
+
+

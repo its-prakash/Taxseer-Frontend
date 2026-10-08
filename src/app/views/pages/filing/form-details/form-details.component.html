@@ -1,0 +1,144 @@
+<main class="wiz-body" id="wizBody">
+  <!-- Header Section -->
+  <div class="sec-h">
+    <div>
+      <h2>Enter 1099-NEC amounts</h2>
+      <div class="muted smalltext-[12.5px]">
+        One row per recipient. Tab moves across the boxes. Open a row for Box 2, Box 3, account number and the full form layout.
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn sm" id="fillState" (click)="useDefaultState()">
+        Use MD and payer state no. for all rows
+      </button>
+      <button class="btn sm ghost" (click)="previewCopies()">
+        Preview copies
+      </button>
+    </div>
+  </div>
+
+  <!-- Entry Table Container -->
+  <div class="card grid-wrap">
+    <table class="entry">
+      <thead>
+        <tr>
+          <th class="w-[36pxx] whitespace-nowrap"></th>
+          <th class="w-[230px] whitespace-nowrap">Recipient</th>
+          <th class="num w-[160px] whitespace-nowrap">
+            Nonemployee compensation<span class="box">Box 1</span>
+          </th>
+          <th class="num w-[160px] whitespace-nowrap">
+            Federal tax withheld<span class="box">Box 4</span>
+          </th>
+          <th class="num w-[160px] whitespace-nowrap">
+            State tax withheld<span class="box">Box 5</span>
+          </th>
+          <th class="w-[240px] whitespace-nowrap">
+            State / payer's state no.<span class="box">Box 6</span>
+          </th>
+          <th class="num" class="w-[140px] whitespace-nowrap">
+            State income<span class="box">Box 7</span>
+          </th>
+          <th class="w-[110px] whitespace-nowrap">Status</th>
+        </tr>
+      </thead>
+      <tbody id="etb">
+        <tr *ngFor="let row of rows" [attr.data-id]="row.id">
+          <td>
+            <button 
+              class="btn ghost sm expand-btn" 
+              [attr.data-more]="row.id" 
+              [attr.aria-expanded]="row.expanded" 
+              [attr.aria-label]="'More boxes for ' + row.recipientName"
+              (click)="toggleExpand(row)">
+              {{ row.expanded ? '▼' : '▸' }}
+            </button>
+          </td>
+          <td>
+            <b>{{ row.recipientName }}</b>
+            <div class="small muted">{{ row.tin }}</div>
+            <div *ngIf="row.errorMessage" class="rowmsg err">
+              {{ row.errorMessage }}
+            </div>
+          </td>
+          <td>
+            <input 
+              class="money" 
+              data-k="b1" 
+              inputmode="decimal" 
+              [(ngModel)]="row.box1" 
+              [attr.aria-label]="'Box 1 for ' + row.recipientName" 
+              placeholder="0.00" 
+            />
+          </td>
+          <td>
+            <input 
+              class="money" 
+              data-k="b4" 
+              inputmode="decimal" 
+              [(ngModel)]="row.box4" 
+              [attr.aria-label]="'Box 4 for ' + row.recipientName" 
+              placeholder="0.00" 
+            />
+          </td>
+          <td>
+            <input 
+              class="money" 
+              data-k="b5" 
+              inputmode="decimal" 
+              [(ngModel)]="row.box5" 
+              [attr.aria-label]="'Box 5 for ' + row.recipientName" 
+              placeholder="0.00" 
+            />
+          </td>
+          <td>
+            <div class="state-group">
+              <select 
+                class="sel-st" 
+                data-k="st" 
+                [(ngModel)]="row.state" 
+                [attr.aria-label]="'Box 6 state for ' + row.recipientName">
+                <option value=""></option>
+                <option *ngFor="let st of stateOptions" [value]="st">{{ st }}</option>
+              </select>
+              <input 
+                class="txt" 
+                data-k="stno" 
+                [(ngModel)]="row.stateNo" 
+                aria-label="Payer's state number" 
+                placeholder="Payer state no." 
+              />
+            </div>
+          </td>
+          <td>
+            <input 
+              class="money" 
+              data-k="b7" 
+              inputmode="decimal" 
+              [(ngModel)]="row.box7" 
+              [attr.aria-label]="'Box 7 for ' + row.recipientName" 
+              placeholder="0.00" 
+            />
+          </td>
+          <td>
+            <span class="pill" [ngClass]="row.status === 'Fix' ? 'p-err' : 'p-ok'">
+              {{ row.status }}
+            </span>
+          </td>
+        </tr>
+
+        <!-- Totals Row -->
+        <tr class="totals">
+          <td></td>
+          <td>Total, {{ rows.length }} {{ rows.length === 1 ? 'form' : 'forms' }}</td>
+          <td class="num">${{ totalBox1 | number:'1.2-2' }}</td>
+          <td class="num">${{ totalBox4 | number:'1.2-2' }}</td>
+          <td class="num">${{ totalBox5 | number:'1.2-2' }}</td>
+          <td></td>
+          <td class="num">${{ totalBox7 | number:'1.2-2' }}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main>

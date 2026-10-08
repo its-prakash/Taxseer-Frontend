@@ -182,13 +182,15 @@
 .choice .go svg{width:18px;height:18px}
 .choice.alt{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.22)}
 .choice.alt:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.4)}
-.choice.alt kbd{background:transparent;border-color:rgba(255,255,255,.35);color:#E3EAF3}
+.choice.alt kbd{background:transparent; border-color:rgba(255,255,255,.35);color:#E3EAF3}
 
 .chooser .choice.alt{background:var(--paper);color:var(--ink);border-color:var(--line)}
 .chooser .choice.alt .ci{background:var(--navy-tint);color:var(--navy)}
 .chooser .choice.alt .d{color:var(--ink-2)}
 .chooser .choice.alt:hover{border-color:#A9B6C6;background:var(--hover)}
 .chooser .choice.alt kbd{border-color:var(--line);color:var(--ink-2)}
+
+kbd{font-family:var(--font);font-size:11px;font-weight:600;padding:1px 6px;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;background:var(--paper);color:var(--ink-2)}
 
 .tplgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px;margin-top:10px}
 .tplgrid button{border:0;background:none;text-align:left;padding:6px 8px;border-radius:5px;color:var(--navy-2);font-size:13px;display:flex;gap:6px;align-items:center}
