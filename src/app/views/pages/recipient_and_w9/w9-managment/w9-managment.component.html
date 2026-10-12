@@ -1,0 +1,186 @@
+<main class="page">
+  <!-- Head -->
+  <div class="head">
+    <div>
+      <h1>W-9 management</h1>
+      <p>W-9 requests for every filer on this account. Recipients fill the form online; their TIN and address update
+        automatically.</p>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn" (click)="toast('W-9 status exported to Excel')">Export</button>
+      <button class="btn primary paper" [disabled]="!waitingCount" (click)="remindAll()">
+        {{ waitingCount ? 'Remind all ' + waitingCount + ' waiting' : 'No one waiting' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="errorMsg" class="callout err" style="margin-bottom:16px">{{ errorMsg }}</div>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="small muted" style="margin-bottom:16px">Loading…</div>
+
+  <!-- Tiles -->
+  <div class="tiles" role="group" aria-label="Filter recipients" style="margin-bottom:16px">
+    <button *ngFor="let t of tiles" class="tile" [class.err]="t.cls === 'err'" [class.warn]="t.cls === 'warn'"
+      [attr.aria-pressed]="tileFilter === t.key" (click)="setTile(t.key)">
+      <span class="v">{{ t.value }}</span>
+      <span class="small muted">{{ t.label }}</span>
+    </button>
+  </div>
+
+  <!-- Card -->
+  <section class="card">
+    <div class="toolbar">
+      <input type="search" class="search" [(ngModel)]="query" (ngModelChange)="onQueryChange()"
+        placeholder="Filer or recipient name" aria-label="Search" />
+      <label class="chk small">
+        <input type="checkbox" [(ngModel)]="onlyOpen" (ngModelChange)="onOnlyOpenChange()" />
+        Only filers with requests waiting
+      </label>
+      <span class="spacer"></span>
+      <button class="btn sm ghost" (click)="toggleExpandAll()">
+        {{ allExpanded ? 'Collapse all' : 'Expand all' }}
+      </button>
+    </div>
+
+    <div class="tbl-wrap">
+      <table class="tbl" style="min-width:1000px">
+        <thead>
+          <tr>
+            <th style="width:44px"><span class="sr">Expand</span></th>
+            <th>Filer</th>
+            <th>Received</th>
+            <th class="num">Waiting</th>
+            <th class="num">Not requested</th>
+            <th>Oldest waiting</th>
+            <th style="text-align:right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="!isLoading && groups.length === 0">
+            <td colspan="7" class="empty">
+              Nothing matches.
+              <button class="btn sm" (click)="clearFilters()">Clear filters</button>
+            </td>
+          </tr>
+
+          <ng-container *ngFor="let g of groups">
+            <tr>
+              <td>
+                <button class="exp" [attr.aria-expanded]="g.open" [attr.aria-label]="'Show recipients for ' + g.name"
+                  (click)="toggleFiler(g.name)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    [style.transform]="g.open ? 'rotate(90deg)' : 'none'"
+                    style="width:16px;height:16px;transition:transform .12s">
+                    <path d="M9 6l6 6-6 6" />
+                  </svg>
+                </button>
+              </td>
+
+              <td>
+                <a class="flink" [routerLink]="['/filers']" [queryParams]="{filer: g.filerId, tab: 'recipients'}">{{
+                  g.name }}</a>
+                <div class="small muted">{{ g.all.length }} recipient{{ g.all.length === 1 ? '' : 's' }}</div>
+              </td>
+
+              <td>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <div class="prog" style="width:110px">
+                    <span [style.width.%]="g.pct" [style.background]="g.pct === 100 ? 'var(--green)' : ''"></span>
+                  </div>
+                  <!-- FIXED: changed g.got to g.got.length -->
+                  <span class="small">{{ g.got.length }} of {{ g.sent.length }}</span>
+                </div>
+              </td>
+
+              <td class="num">
+                <b *ngIf="g.wait.length" style="color:var(--amber)">{{ g.wait.length }}</b>
+                <span *ngIf="!g.wait.length">–</span>
+              </td>
+
+              <td class="num">{{ g.notReq || '–' }}</td>
+
+              <td class="small">
+                <ng-container *ngIf="g.oldest; else noOldest">
+                  {{ ago(g.oldest.sentDate!) }} days
+                  <span class="muted">({{ fmt(g.oldest.sentDate!) }})</span>
+                  <span *ngIf="ago(g.oldest.sentDate!) > 30" class="pill p-err">Overdue</span>
+                </ng-container>
+                <ng-template #noOldest><span class="muted">–</span></ng-template>
+              </td>
+
+              <td style="text-align:right;white-space:nowrap">
+                <button *ngIf="g.wait.length" class="btn sm" (click)="remindFiler(g.filerId, g.name)">
+                  Remind {{ g.wait.length }}
+                </button>
+                <button *ngIf="g.notReq" class="btn sm" style="margin-left:4px" (click)="requestAll(g.filerId, g.name)">
+                  Request {{ g.notReq }}
+                </button>
+                <span *ngIf="!g.wait.length && !g.notReq" class="pill p-ok">All received</span>
+              </td>
+            </tr>
+
+            <tr *ngIf="g.open" class="more">
+              <td></td>
+              <td colspan="6">
+                <table class="mini">
+                  <thead>
+                    <tr>
+                      <th>Recipient</th>
+                      <th>TIN</th>
+                      <th>Email</th>
+                      <th>Status</th>
+                      <th>History</th>
+                      <th style="text-align:right"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let r of g.filtered">
+                      <td><b>{{ r.name }}</b></td>
+                      <td>
+                        {{ r.tin }}
+                        <div *ngIf="hasInvalidTin(r.tin)" class="issue">Invalid TIN</div>
+                      </td>
+                      <td class="small">
+                        <span *ngIf="r.email">{{ r.email }}</span>
+                        <span *ngIf="!r.email" class="note">No email</span>
+                      </td>
+                      <td>
+                        <span class="pill" [ngClass]="PILL[r.w9Status]">{{ r.w9Status }}</span>
+                      </td>
+                      <td class="small muted">{{ historyText(r) }}</td>
+                      <td style="text-align:right;white-space:nowrap">
+                        <button *ngIf="r.w9Status === 'Submitted'" class="btn sm ghost"
+                          (click)="toast('Opening W-9 from ' + r.name)">View W-9</button>
+                        <button *ngIf="r.w9Status !== 'Submitted' && !r.email" class="btn sm"
+                          (click)="toast('Add an email for ' + r.name + ' first')">Add email</button>
+                        <button *ngIf="r.w9Status !== 'Submitted' && r.email" class="btn sm"
+                          [class.primary]="r.w9Status !== 'Requested'" (click)="sendRequest(r.id)">
+                          {{ r.w9Status === 'Requested' ? 'Resend' : 'Request W-9' }}
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="foot-note">
+      <span>Waiting requests get an automatic reminder every 7 days, up to 3 times.</span>
+      <span>Payments to a recipient without a W-9 may require 24% backup withholding.</span>
+    </div>
+  </section>
+</main>
+
+<button class="chatfab" aria-label="Chat with TaxSeer support" (click)="toast('Support chat')">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M4 5h16v11H9l-5 4z" />
+  </svg>
+</button>
+
+<div class="toast" [class.show]="toastMsg" role="status" aria-live="polite">{{ toastMsg }}</div>

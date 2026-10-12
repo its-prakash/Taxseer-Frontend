@@ -31,25 +31,26 @@
         <div class="sub">1099, W-2 and ACA for any filer on your account</div>
       </div>
       <button class="choice main" id="goManual" (click)="goToNewFiling()">
-        <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></span>
-        <span
-          ><b>Manual entry</b
-          ><span class="d"
-            >Pick recipients and type the amounts. Best for a handful of
-            forms.</span
-          ></span
-        >
-        <span class="go"><kbd class>N</kbd><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 20h4L19 9l-4-4L4 16z" />
+          </svg></span>
+        <span><b>Manual entry</b><span class="d">Pick recipients and type the amounts. Best for a handful of
+            forms.</span></span>
+        <span class="go"><kbd class>N</kbd><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.2">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg></span>
       </button>
       <button class="choice alt" id="goBulk">
-        <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 9h16M4 15h16M10 3v18"/></svg></span>
-        <span
-          ><b>Bulk import</b
-          ><span class="d"
-            >Upload the TaxSeer Excel template or your own file.</span
-          ></span
-        >
-        <span class="go"><kbd class>I</kbd><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <span class="ci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="3" width="16" height="18" rx="2" />
+            <path d="M4 9h16M4 15h16M10 3v18" />
+          </svg></span>
+        <span><b>Bulk import</b><span class="d">Upload the TaxSeer Excel template or your own file.</span></span>
+        <span class="go"><kbd class>I</kbd><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.2">
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg></span>
       </button>
       <details>
         <summary>Download Excel templates</summary>
@@ -60,48 +61,27 @@
 
   <div class="dash-grid3">
     <section class="card" aria-labelledby="h-att">
-      <div class="card-h"><h2 id="h-att">Needs attention</h2></div>
-      <a class="att" href="taxseer-orders.html?status=rejected"
-        ><span class="n err">3</span
-        ><span
-          ><b>Rejected by IRS / SSA</b><br /><span class="small muted"
-            >Maryland Trucking (1), Nextlinx (2)</span
-          ></span
-        ></a
-      >
-      <a class="att" href="${filerUrl(1,'recipients')}"
-        ><span class="n err">2</span
-        ><span
-          ><b>Recipients that will be rejected</b><br /><span
-            class="small muted"
-            >8-digit TIN, invalid state</span
-          ></span
-        ></a
-      >
-      <a class="att" href="taxseer-Recipients_and_W9.html"
-        ><span class="n warn"></span
-        ><span
-          ><b>W-9 requests unanswered</b><br /><span class="small muted"
-            >Across 4 filers. Oldest sent Nov 4.</span
-          ></span
-        ></a
-      >
+      <div class="card-h">
+        <h2 id="h-att">Needs attention</h2>
+      </div>
+      <a class="att" href="taxseer-orders.html?status=rejected"><span class="n err">3</span><span><b>Rejected by IRS /
+            SSA</b><br /><span class="small muted">Maryland Trucking (1), Nextlinx (2)</span></span></a>
+      <a class="att" href="${filerUrl(1,'recipients')}"><span class="n err">2</span><span><b>Recipients that will be
+            rejected</b><br /><span class="small muted">8-digit TIN, invalid state</span></span></a>
+      <a class="att" href="taxseer-Recipients_and_W9.html"><span class="n warn"></span><span><b>W-9 requests
+            unanswered</b><br /><span class="small muted">Across 4 filers. Oldest sent Nov 4.</span></span></a>
     </section>
 
     <section class="card pad" aria-labelledby="h-dl">
       <h2 id="h-dl">Deadlines</h2>
       <div class="dlist">
         <div>
-          <span
-            ><span class="dl-date">Feb 2</span> 1099-NEC, W-2 and recipient
-            copies</span
-          ><span class="pill p-warn">19 days</span>
+          <span><span class="dl-date">Feb 2</span> 1099-NEC, W-2 and recipient
+            copies</span><span class="pill p-warn">19 days</span>
         </div>
         <div>
-          <span
-            ><span class="dl-date">Mar 31</span> Other 1099s and ACA
-            e-file</span
-          ><span class="pill p-neutral">76 days</span>
+          <span><span class="dl-date">Mar 31</span> Other 1099s and ACA
+            e-file</span><span class="pill p-neutral">76 days</span>
         </div>
       </div>
     </section>
@@ -120,92 +100,110 @@
     <div class="card-h">
       <h2 id="h-filers" class="text-[16px] font-[600]">Filers</h2>
       <div class="flex gap-2">
-        <input
-          class="search"
-          id="dashFq"
-          placeholder="Find a filer by name or EIN"
-          aria-label="Find a filer"
-        /><button class="btn sm" data-addfiler>Add filer</button>
+        <input class="search" id="dashFq" placeholder="Find a filer by name or EIN"
+          aria-label="Find a filer" /><!-- Add Filer Button -->
+        <button type="button" (click)="openAddDrawer()"
+          class="btn primary flex items-center gap-1 border px-3 py-1.5 rounded text-sm bg-blue-600 text-black">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16px">
+            <path d="M12 5v14M5 12h14" />
+          </svg>
+          Add Filer
+        </button>
       </div>
     </div>
     <div class="overflow-x-auto">
-      <table class="w-full min-w-[900px]">
-        <thead>
-          <tr
-            class="via-inherit bg-[#f7f9fb] table-row align-[inherit] unicode-bidi-isolate border-[inherit] text-left"
-          >
-            <th
-              class="px-3 py-[9px] font-semibold text-[#45505e] text-[12.5px] border-b border-[#d5dce4]"
-            >
-              Name / company
-            </th>
-            <th
-              class="px-3 py-[9px] font-semibold text-[#45505e] text-[12.5px] border-b border-[#d5dce4]"
-            >
-              EIN
-            </th>
-            <th
-              class="px-3 py-[9px] font-semibold text-[#45505e] text-[12.5px] border-b border-[#d5dce4]"
-            >
-              Forms used
-            </th>
-            <th
-              class="num px-3 py-[9px] font-semibold text-[#45505e] text-[12.5px] border-b border-[#d5dce4]"
-            >
-              Pending
-            </th>
-            <th
-              class="num px-3 py-[9px] font-semibold text-[#45505e] text-[12.5px] border-b border-[#d5dce4]"
-            >
-              Filed 2025
-            </th>
-            <th
-              class="px-3 py-[9px] font-semibold text-[#45505e] text-[12.5px] border-b border-[#d5dce4]"
-            >
-              W-9s received
-            </th>
-            <th
-              class="px-3 py-[9px] font-semibold text-[#45505e] text-[12.5px] border-b border-[#d5dce4]"
-            ></th>
-          </tr>
-        </thead>
-        <tbody id="dashFilers">
-          <tr>
-             <td class="px-3 py-[11px]">
-            <a class="fname cursor-pointer">Tech International Corporation</a>
-            <div class="small muted">Gaithersburg, MD</div>
-          </td>
-          <td class="px-3 py-[11px]">11-1111111</td>
-          <td class="small px-3 py-[11px]"><span class="muted">1099-NEC, 1099-MISC</span></td>
-          <td class="num px-3 py-[11px]">1</td>
-          <td class="num px-3 py-[11px]">29</td>
-          <td class="px-3 py-[11px]">
-            <a class="btn link cursor-pointer">4 of 5</a>
-            <span class="pill p-warn">1 waiting</span>
-            <!-- <span class="pill p-ok">All in</span>
-            <span class="muted">No requests</span> -->
-          </td>
-          <td class="text-right whitespace-nowrap px-3 py-[11px] flex items-center">
-            <button class="btn sm ghost">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16px"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>Edit
-            </button>
-            <button class="btn sm">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M12 5v14M5 12h14" /></svg>New filing
-            </button>
-          </td>
-          <!-- <td colspan="7" class="empty">
-            No filer matches.
-            <button class="btn sm" data-addfiler>Add filer</button>
-          </td> -->
-          </tr>
-        </tbody>
-      </table>
+      <div class="overflow-x-auto">
+        <!-- Loading & Error States -->
+        <div *ngIf="isLoading" class="p-4 text-center text-gray-500">Loading filers...</div>
+        <div *ngIf="errorMessage" class="p-4 text-center text-red-500">{{ errorMessage }}</div>
+
+        <table *ngIf="!isLoading && !errorMessage" class="w-full min-w-[900px]">
+          <thead>
+            <tr
+              class="via-inherit bg-[#f7f9fb] table-row align-[inherit] unicode-bidi-isolate border-[inherit] text-left">
+              <th class="px-3 py-[9px] font-semibold text-[#45505e] text-[12.5px] border-b border-[#d5dce4]">
+                Name / company
+              </th>
+              <th class="px-3 py-[9px] font-semibold text-[#45505e] text-[12.5px] border-b border-[#d5dce4]">
+                EIN
+              </th>
+              <th class="px-3 py-[9px] font-semibold text-[#45505e] text-[12.5px] border-b border-[#d5dce4]">
+                Forms used
+              </th>
+              <th class="num px-3 py-[9px] font-semibold text-[#45505e] text-[12.5px] border-b border-[#d5dce4]">
+                Pending
+              </th>
+              <th class="num px-3 py-[9px] font-semibold text-[#45505e] text-[12.5px] border-b border-[#d5dce4]">
+                Filed 2025
+              </th>
+              <th class="px-3 py-[9px] font-semibold text-[#45505e] text-[12.5px] border-b border-[#d5dce4]">
+                W-9s received
+              </th>
+              <th class="px-3 py-[9px] font-semibold text-[#45505e] text-[12.5px] border-b border-[#d5dce4]"></th>
+            </tr>
+          </thead>
+          <tbody id="dashFilers">
+            <!-- Dynamic Rows -->
+            <tr *ngFor="let filer of filers" class="border-b border-[#eef2f6] hover:bg-gray-50">
+              <td class="px-3 py-[11px]">
+                <a class="fname cursor-pointer font-medium text-blue-600 hover:underline">{{ filer.name }}</a>
+                <div class="small muted text-xs text-gray-500">{{ filer.city }}, {{ filer.st }}</div>
+              </td>
+              <td class="px-3 py-[11px]">{{ filer.ein }}</td>
+              <td class="small px-3 py-[11px]">
+                <span class="muted text-gray-600">{{ filer.formsUsed || '1099-NEC' }}</span>
+              </td>
+              <td class="num px-3 py-[11px]">{{ filer.pending ?? '-' }}</td>
+              <td class="num px-3 py-[11px]">{{ filer.filed2025 ?? '-' }}</td>
+              <td class="px-3 py-[11px]">
+                <ng-container *ngIf="filer.w9Received; else noRequests">
+                  <a class="btn link cursor-pointer text-blue-600">{{ filer.w9Received }}</a>
+                  <span *ngIf="filer.w9Waiting"
+                    class="pill p-warn ml-2 bg-amber-100 text-amber-800 text-xs px-2 py-0.5 rounded">
+                    {{ filer.w9Waiting }} waiting
+                  </span>
+                </ng-container>
+                <ng-template #noRequests>
+                  <span class="muted text-gray-400 text-xs">No requests</span>
+                </ng-template>
+              </td>
+              <td class="text-right whitespace-nowrap px-3 py-[11px] flex items-center justify-end gap-2">
+                <button type="button" (click)="openEditDrawer(currentFiler, filer)"
+                  class="btn sm ghost flex items-center gap-1 border px-2 py-1 rounded text-sm">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16px">
+                    <path d="M4 20h4L19 9l-4-4L4 16z" />
+                  </svg>
+                  Edit
+                </button>
+                <button (click)="onNewFiling(filer)"
+                  class="btn sm flex items-center gap-1 bg-blue-600 text-black px-2 py-1 rounded text-sm">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16px">
+                    <path d="M12 5v14M5 12h14" />
+                  </svg>
+                  New filing
+                </button>
+              </td>
+            </tr>
+
+            <!-- Empty State -->
+            <tr *ngIf="filers.length === 0">
+              <td colspan="7" class="empty text-center py-6 text-gray-500">
+                No filer matches.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
     </div>
   </section>
 </main>
+
+
+
+
+
+<!-- left side drawer -->
+<app-create-filer *ngIf="isDrawerOpen" [filerData]="selectedFilerData" (closeDrawer)="closeEditDrawer()"
+  (saveFiler)="onSaveFiler($event)">
+</app-create-filer>

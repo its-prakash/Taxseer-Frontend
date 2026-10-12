@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -25,11 +25,13 @@ export interface StateOption {
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './add-filer.component.html',
-  styleUrl: './add-filer.component.scss'
+  styleUrl: './add-filer.component.scss',
 })
-export class AddFilerComponent {
-  @Output() closePanel = new EventEmitter<void>();
+export class AddFilerComponent implements OnInit, OnChanges{
   @Output() save = new EventEmitter<FilerModel>();
+
+  @Input() isActiveForm!: Boolean;
+  @Output() closePanel = new EventEmitter<Boolean>()
 
   filer: FilerModel = {
     legalName: '',
@@ -41,7 +43,7 @@ export class AddFilerComponent {
     state: '',
     zip: '',
     email: '',
-    payerStateId: ''
+    payerStateId: '',
   };
 
   stateOptions: StateOption[] = [
@@ -100,11 +102,22 @@ export class AddFilerComponent {
     { code: 'GU', name: 'Guam' },
     { code: 'MP', name: 'Northern Mariana Islands' },
     { code: 'PR', name: 'Puerto Rico' },
-    { code: 'VI', name: 'U.S. Virgin Islands' }
+    { code: 'VI', name: 'U.S. Virgin Islands' },
   ];
 
+  constructor(){}
+  ngOnChanges(changes: SimpleChanges): void {
+    this.isActiveForm = !this.isActiveForm
+    // throw new Error('Method not implemented.');
+  }
+
+  ngOnInit(): void {
+    console.log(this.isActiveForm)
+  }
+  
+
   close(): void {
-    this.closePanel.emit();
+    this.closePanel.emit(true);
   }
 
   cancel(): void {

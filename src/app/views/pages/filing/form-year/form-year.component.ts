@@ -1,19 +1,8 @@
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-export interface FormOption {
-  id: string;
-  description: string;
-  category: 'previous' | '1099' | 'wage' | 'aca' | 'extension';
-  badge?: string;
-}
-
-export interface FilerInfo {
-  name: string;
-  ein: string;
-  address: string;
-}
+import { SavedDataService } from '../../../../services/saved-data.service';
+import { Filer } from '../../../../services/dashboard.service';
 
 @Component({
   selector: 'app-form-year',
@@ -22,24 +11,17 @@ export interface FilerInfo {
   templateUrl: './form-year.component.html',
   styleUrl: './form-year.component.scss'
 })
+export class FormYearComponent implements OnInit {
+  private _savedDataService = inject(SavedDataService);
 
-export class FormYearComponent {
-  @Output() stepGo = new EventEmitter<number>();
-  @Output() formSelected = new EventEmitter<{ year: string; formId: string }>();
+  filer: Filer | null = null;
+  availableYears = ['2025', '2024', '2023'];
+  selectedYear = '2025';
+  searchQuery = '';
 
-  selectedYear: string = '2025';
-  selectedForm: string = '';
-  searchQuery: string = '';
+  selectedForm: { id: string; name: string } | null = null;
 
-  availableYears: string[] = ['2025', '2024', '2023'];
-
-  filer: FilerInfo = {
-    name: 'Dillon Consulting',
-    ein: '55-5555555',
-    address: '1 Market St<br>Rockville, MD 20850'
-  };
-
-  formsList: FormOption[] = [
+  series1099Forms = [
     { id: '1099-NEC', description: 'Nonemployee compensation', category: 'previous', badge: 'Used last year' },
     { id: '1099-MISC', description: 'Rents, royalties, other income', category: '1099' },
     { id: '1099-INT', description: 'Interest income', category: '1099' },
@@ -61,47 +43,52 @@ export class FormYearComponent {
     { id: '1095-B', description: 'Health coverage (1094-B created for you)', category: 'aca' },
     { id: '8809', description: 'Extension of time to file information returns', category: 'extension' }
   ];
+  wageForms = [{ id: 'W-2', description: 'Wage and tax statement' }];
+  acaForms = [{ id: '1095-C', description: 'Employer-provided coverage' }];
+  extensionForms = [{ id: '8809', description: 'Extension of time to file' }];
 
-  get filteredForms(): FormOption[] {
-    if (!this.searchQuery.trim()) {
-      return this.formsList;
-    }
-    const q = this.searchQuery.toLowerCase();
-    return this.formsList.filter(f => 
-      f.id.toLowerCase().includes(q) || f.description.toLowerCase().includes(q)
-    );
-  }
-
-  get previousForms(): FormOption[] {
-    return this.filteredForms.filter(f => f.category === 'previous');
-  }
-
-  get series1099Forms(): FormOption[] {
-    return this.filteredForms.filter(f => f.category === '1099');
-  }
-
-  get wageForms(): FormOption[] {
-    return this.filteredForms.filter(f => f.category === 'wage');
-  }
-
-  get acaForms(): FormOption[] {
-    return this.filteredForms.filter(f => f.category === 'aca');
-  }
-
-  get extensionForms(): FormOption[] {
-    return this.filteredForms.filter(f => f.category === 'extension');
+  ngOnInit(): void {
+    this.filer = this._savedDataService.getSelectedFiler();
+    this._savedDataService.setSelectedYear(this.selectedYear);
   }
 
   selectYear(year: string): void {
     this.selectedYear = year;
+    this._savedDataService.setSelectedYear(year);
   }
 
-  selectForm(formId: string): void {
-    this.selectedForm = formId;
-    this.formSelected.emit({ year: this.selectedYear, formId });
+  selectForm(form: { id: string; description: string }): void {
+    this.selectedForm = { id: form.id, name: form.description };
+    this._savedDataService.setSelectedForm(this.selectedForm);
+  }
+
+  // Add these helper methods inside your FormYearComponent class:
+
+  getEfileDue(): string {
+    if (this.selectedForm?.id === '1099-NEC') {
+      const yearNum = Number(this.selectedYear);
+      return yearNum === 2025 ? `Feb 2, ${yearNum + 1}` : `Jan 31, ${yearNum + 1}`;
+    }
+    return 'Mar 31, ' + (Number(this.selectedYear) + 1);
+  }
+
+  getRecipientCopiesDue(): string {
+    if (this.selectedForm?.id === '1099-NEC') {
+      const yearNum = Number(this.selectedYear);
+      return yearNum === 2025 ? `Feb 2, ${yearNum + 1}` : `Jan 31, ${yearNum + 1}`;
+    }
+    return 'Feb 15, ' + (Number(this.selectedYear) + 1);
+  }
+
+  openIrsInstructions(): void {
+    // Handle opening IRS documentation link or toast notification
+  }
+
+  ngDoCheck() {
+
   }
 
   onChangeFiler(): void {
-    this.stepGo.emit(1);
+    // Navigate back to filer step
   }
 }

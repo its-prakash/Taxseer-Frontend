@@ -23,72 +23,71 @@
     </div>
     <nav class="steps" aria-label="Filing steps">
       <!-- <step -->
-      <button class="step cur">
+      <button class="step cur" (click)="tabSwitch('filer')" [class.cur]="activeTab === 'filer'">
         <span class="dot">1</span>
         <span class="min-w-[0]">
-            <span class="t">Filer</span>
-            <span class="s">Tech International Corporation</span>
+          <span class="t">Filer</span>
+          <span class="s">{{ (selectedFiler$ | async)?.name || 'Choose who is filing' }}</span>
         </span>
       </button>
 
-      <button class="step">
+      <button class="step" (click)="tabSwitch('formYear')" [class.cur]="activeTab === 'formYear'">
         <span class="dot">2</span>
         <span class="min-w-[0]">
-            <span class="t">Form and year</span>
-            <span class="s">Choose tax year and form</span></span>
+          <span class="t">Form and year</span>
+          <span class="s">
+            {{ (filingSelection$ | async)?.form?.name || 'Choose form' }} — {{ (filingSelection$ | async)?.year ||
+            'Choose year' }}
+          </span>
+          </span>
       </button>
-      <button class="step">
+      <button class="step" (click)="tabSwitch('recipients')" [class.cur]="activeTab === 'recipients'">
         <span class="dot">3</span>
         <span class="min-w-[0]">
-            <span class="t">Recipients</span>
-            <span class="s">Choose who gets a form</span></span>
+          <span class="t">Recipients</span>
+          <span class="s">Choose who gets a form</span></span>
       </button>
-      <button class="step">
+      <button class="step" (click)="tabSwitch('form-details')" [class.cur]="activeTab === 'form-details'">
         <span class="dot">4</span>
         <span class="min-w-[0]">
-            <span class="t">Form details</span>
-            <span class="s">Enter box amounts</span></span>
+          <span class="t">Form details</span>
+          <span class="s">Enter box amounts</span></span>
       </button>
-      <button class="step">
+      <button class="step" (click)="tabSwitch('review')" [class.cur]="activeTab === 'review'">
         <span class="dot">5</span>
         <span class="min-w-[0]">
-            <span class="t">Review</span>
-            <span class="s">Check and add to cart</span></span>
+          <span class="t">Review</span>
+          <span class="s">Check and add to cart</span></span>
       </button>
     </nav>
   </div>
 </div>
-<main class="wiz-body" id="wizBody">
-    <!-- <app-dashboard-filers></app-dashboard-filers> -->
-    <!-- <app-form-year></app-form-year> -->
-     <!-- <app-recipients></app-recipients> -->
-      <!-- <app-form-details></app-form-details> -->
-       <!-- <app-review></app-review> -->
-        <app-add-filer></app-add-filer>
 
+<main class="wiz-body" id="wizBody">
+  <app-dashboard-filers *ngIf="activeTab === 'filer'" >
+  </app-dashboard-filers>
+  <app-form-year *ngIf="activeTab === 'formYear'"></app-form-year>
+  <app-recipients *ngIf="activeTab === 'recipients'"></app-recipients>
+  <app-form-details *ngIf="activeTab === 'form-details'"></app-form-details>
+  <app-review *ngIf="activeTab === 'review'"></app-review>
 </main>
 
-  <footer class="wiz-foot">
-    <div class="inner">
-      <button
-        class="btn ghost"
-        id="backBtn"
-        [style.visibility]="showBackButton ? 'visible' : 'hidden'"
-        (click)="onBack()"
-      >
-        Back
-      </button>
+<footer class="wiz-foot">
+  <div class="inner">
+    <button class="btn ghost" id="backBtn" [style.visibility]="showBackButton ? 'visible' : 'hidden'"
+      (click)="onBack()">
+      Back
+    </button>
 
-      <span class="msg" id="footMsg">
-        Filing for <b>{{ selectedFilerName }}</b
-        >, EIN {{ selectedFilerEin }}
-      </span>
+    <span class="msg" id="footMsg">
+      Filing for <b>{{ selectedFilerName }}</b>, EIN {{ selectedFilerEin }}
+    </span>
 
-      <button class="btn primary" id="nextBtn" (click)="onContinue()">
-        Continue
-      </button>
-    </div>
-  </footer>
+    <button class="btn primary" id="nextBtn" (click)="onContinue()">
+      Continue
+    </button>
+  </div>
+</footer>
 
 <!-- <div class="wiz-foot">
   <div class="inner">
@@ -97,5 +96,3 @@
     <button class="btn primary" id="nextBtn"></button>
   </div>
 </div> -->
-
-

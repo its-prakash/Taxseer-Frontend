@@ -1,0 +1,112 @@
+<div class="drawer-overlay" (click)="onClose()">
+  <div class="drawer-container" (click)="$event.stopPropagation()">
+    
+    <!-- Header -->
+    <div class="drawer-header">
+      <h2>Edit filer</h2>
+      <button class="close-btn" (click)="onClose()" type="button">&times;</button>
+    </div>
+
+    <div class="drawer-body">
+      <!-- Info Banner -->
+      <div class="info-banner">
+        Changes apply to pending forms and new filings. Forms already filed keep the details they were filed with; correct those with a corrected return.
+      </div>
+
+      <form [formGroup]="filerForm" (ngSubmit)="onSubmit()">
+        
+        <!-- Payer Section -->
+        <div class="form-section">
+          <h3 class="section-title">Payer</h3>
+          
+          <div class="form-group full-width">
+            <label for="legalName">Legal name</label>
+            <input 
+              id="legalName" 
+              type="text" 
+              formControlName="legalName" 
+              class="form-control active-focus"
+            />
+            <span class="field-hint">As registered with the IRS for this EIN.</span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="ein">EIN</label>
+              <input id="ein" type="text" formControlName="ein" class="form-control" />
+            </div>
+            
+            <div class="form-group col">
+              <label for="phone">Phone</label>
+              <input id="phone" type="text" formControlName="phone" class="form-control" />
+              <span class="field-hint">Printed on the payer box of 1099s.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Address Section -->
+        <div class="form-section">
+          <h3 class="section-title">Address</h3>
+
+          <div class="form-group full-width">
+            <label for="streetAddress">Street address</label>
+            <input id="streetAddress" type="text" formControlName="streetAddress" class="form-control" />
+          </div>
+
+          <div class="form-group full-width">
+            <label for="suite">Suite (optional)</label>
+            <input id="suite" type="text" formControlName="suite" class="form-control" />
+          </div>
+
+          <div class="form-row address-row">
+            <div class="form-group col-city">
+              <label for="city">City</label>
+              <input id="city" type="text" formControlName="city" class="form-control" />
+            </div>
+
+            <div class="form-group col-state">
+              <label for="state">State</label>
+              <select id="state" formControlName="state" class="form-control select-control">
+                <option value="MD">MD · Maryland</option>
+                <option value="VA">VA · Virginia</option>
+                <option value="DC">DC · District of Columbia</option>
+              </select>
+            </div>
+
+            <div class="form-group col-zip">
+              <label for="zip">ZIP</label>
+              <input id="zip" type="text" formControlName="zip" class="form-control" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Filing Details Section -->
+        <div class="form-section">
+          <h3 class="section-title">Filing details</h3>
+
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="contactEmail">Contact email</label>
+              <input id="contactEmail" type="email" formControlName="contactEmail" class="form-control" />
+              <span class="field-hint">Receives filing status updates.</span>
+            </div>
+
+            <div class="form-group col">
+              <label for="payerStateId">Payer state ID</label>
+              <input id="payerStateId" type="text" formControlName="payerStateId" class="form-control" />
+              <span class="field-hint">Pre-fills Box 6 on state copies.</span>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- Footer Actions (Optional/Customizable) -->
+    <div class="drawer-footer">
+      <button type="button" class="btn-secondary" (click)="onClose()">Cancel</button>
+      <button type="button" class="btn-primary" (click)="onSubmit()">Save changes</button>
+    </div>
+
+  </div>
+</div>

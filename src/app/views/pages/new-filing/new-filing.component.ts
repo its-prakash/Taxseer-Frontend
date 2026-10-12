@@ -1,29 +1,53 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DashboardFilersComponent, Filer } from '../filing/dashboard-filers/dashboard-filers.component';
+import { Component, EventEmitter, inject, Input, Output, SimpleChanges } from '@angular/core';
+import { DashboardFilersComponent } from '../filing/dashboard-filers/dashboard-filers.component';
+
+import { AddFilerComponent, FilerModel } from '../add-filer/add-filer.component';
 import { FormYearComponent } from '../filing/form-year/form-year.component';
-import { RecipientsComponent } from '../filing/recipients/recipients.component';
 import { FormDetailsComponent } from '../filing/form-details/form-details.component';
+import { RecipientsComponent } from '../filing/recipients/recipients.component';
 import { ReviewComponent } from '../filing/review/review.component';
-import { AddFilerComponent } from '../add-filer/add-filer.component';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { SavedDataService } from '../../../services/saved-data.service';
+import { Filer} from '../../../services/dashboard.service'
+
+export type TabType = 'filer' | 'formYear' | 'recipients' | 'form-details' | 'review';
 
 @Component({
   selector: 'app-new-filing',
   standalone: true,
-  imports: [DashboardFilersComponent, FormYearComponent, RecipientsComponent, FormDetailsComponent, ReviewComponent, AddFilerComponent],
+  imports: [AddFilerComponent, DashboardFilersComponent, FormYearComponent, FormDetailsComponent, RecipientsComponent, ReviewComponent, NgIf, AsyncPipe,],
   templateUrl: './new-filing.component.html',
   styleUrl: './new-filing.component.scss'
 })
 export class NewFilingComponent {
 
   @Output() back = new EventEmitter<void>();
-    @Output() continue = new EventEmitter<void>();
+  @Output() continue = new EventEmitter<void>();
 
-    @Input() selectedFilerName: string = 'Dillon Consulting';
+  // @Input() selectedFilerName: string = 'Dillon Consulting';
   @Input() selectedFilerEin: string = '55-5555555';
   @Input() showBackButton: boolean = false;
 
   searchQuery: string = '';
   selectedFilerId: number = 7;
+  activeTab: string = 'filer';
+
+
+  selectedFilerName: string | null = 'null';
+
+  rrecievedRowId: number | null = null;
+  handleChildData(data: number): void {
+    this.rrecievedRowId = data;
+    console.log('Data received in parent:', data);
+  }
+
+  public _savedDataService = inject(SavedDataService)
+
+  readonly selectedFiler$ = this._savedDataService.selectedFiler$;
+
+  readonly filingSelection$ = this._savedDataService.filingSelection$;
+
+
 
   filers: Filer[] = [
     { id: 1, name: 'Tech International Corporation', ein: '11-1111111', address: '200 Trafalgar Square, Gaithersburg, MD 20878', formsUsed: '1099-NEC, 1099-MISC', isRecent: true },
@@ -45,12 +69,17 @@ export class NewFilingComponent {
     return this.filteredFilers.filter(f => !f.isRecent);
   }
 
+  tabSwitch(tab: TabType): void {
+    this.activeTab = tab;
+  }
+
+
   get filteredFilers(): Filer[] {
     if (!this.searchQuery.trim()) {
       return this.filers;
     }
     const query = this.searchQuery.toLowerCase();
-    return this.filers.filter(f => 
+    return this.filers.filter(f =>
       f.name.toLowerCase().includes(query) || f.ein.includes(query)
     );
   }
@@ -67,7 +96,7 @@ export class NewFilingComponent {
   addFiler(): void {
     // Logic for adding a new filer
   }
-      onBack(): void {
+  onBack(): void {
     this.back.emit();
   }
 
@@ -75,5 +104,25 @@ export class NewFilingComponent {
 
   onContinue(): void {
     this.continue.emit();
+    this.tabSwitch("formYear")
+  }
+
+
+  isActiveForm: boolean = false;
+
+  onClosePanel(event: Boolean): void {
+    this.isActiveForm = true; // Hides panel when closed
+  }
+
+  onSaveFiler(filer: FilerModel): void {
+    console.log('Filer saved:', filer);
+  }
+
+  getSelectedFiler() {
+    const selectedFiler = this._savedDataService.getSelectedFiler();
+
+    if (selectedFiler)
+      this.selectedFilerName = selectedFiler?.name;
+
   }
 }

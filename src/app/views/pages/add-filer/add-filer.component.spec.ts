@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddFilerComponent } from './add-filer.component';
+import { AddFilerComponent } from './create-filer.component';
 
 describe('AddFilerComponent', () => {
   let component: AddFilerComponent;

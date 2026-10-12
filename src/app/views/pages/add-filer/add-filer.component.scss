@@ -1,18 +1,18 @@
 :host {
-  --canvas: #EDF0F3;
-  --paper: #FFFFFF;
-  --ink: #17212E;
-  --ink-2: #45505E;
-  --ink-3: #5F6A78;
-  --line: #D5DCE4;
-  --line-2: #E7EBF0;
-  --hover: #F5F7FA;
-  --soft: #F7F9FB;
-  --navy: #1C3F6E;
-  --navy-2: #2A5391;
-  --blue: #2E6CB5;
+  --canvas: #edf0f3;
+  --paper: #ffffff;
+  --ink: #17212e;
+  --ink-2: #45505e;
+  --ink-3: #5f6a78;
+  --line: #d5dce4;
+  --line-2: #e7ebf0;
+  --hover: #f5f7fa;
+  --soft: #f7f9fb;
+  --navy: #1c3f6e;
+  --navy-2: #2a5391;
+  --blue: #2e6cb5;
   --r: 6px;
-  --font: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  --font: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
 
   display: block;
   font-family: var(--font);
@@ -30,6 +30,22 @@
   height: 100vh;
   box-shadow: -4px 0 16px rgba(0, 0, 0, 0.08);
   box-sizing: border-box;
+
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(560px, 100vw);
+  background: var(--paper);
+  z-index: 51;
+  transform: translateX(100%);
+  transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.show {
+  transform: none;
 }
 
 /* Header */
