@@ -39,7 +39,7 @@
             {{ (filingSelection$ | async)?.form?.name || 'Choose form' }} — {{ (filingSelection$ | async)?.year ||
             'Choose year' }}
           </span>
-          </span>
+        </span>
       </button>
       <button class="step" (click)="tabSwitch('recipients')" [class.cur]="activeTab === 'recipients'">
         <span class="dot">3</span>
@@ -64,7 +64,7 @@
 </div>
 
 <main class="wiz-body" id="wizBody">
-  <app-dashboard-filers *ngIf="activeTab === 'filer'" >
+  <app-dashboard-filers *ngIf="activeTab === 'filer'">
   </app-dashboard-filers>
   <app-form-year *ngIf="activeTab === 'formYear'"></app-form-year>
   <app-recipients *ngIf="activeTab === 'recipients'"></app-recipients>

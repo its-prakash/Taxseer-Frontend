@@ -1,0 +1,82 @@
+<div class="wizard-container">
+
+    <!-- Top Header Bar -->
+    <header class="wizard-top-bar">
+        <div class="title-section">
+            <h1>New filing</h1>
+            <span class="badge">Manual entry</span>
+        </div>
+        <button class="save-exit-btn">Save and exit</button>
+    </header>
+
+    <!-- Stepper Header Navigation -->
+    <div class="stepper-header">
+        <div class="step-item" *ngFor="let step of steps; let i = index" [class.active]="currentStepIndex === i"
+            [class.completed]="step.completed" (click)="goToStep(i)">
+
+            <!-- Circle number or checkmark -->
+            <div class="step-circle">
+                <span *ngIf="!step.completed">{{ i + 1 }}</span>
+                <svg *ngIf="step.completed" class="check-icon" viewBox="0 0 24 24" width="14" height="14">
+                    <path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                </svg>
+            </div>
+
+            <!-- Title & Subtitle text -->
+            <div class="step-text">
+                <span class="step-title">{{ step.title }}</span>
+                <span class="step-subtitle">{{ step.subtitle }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stepper Body Content Area -->
+    <div class="stepper-body">
+
+        <!-- STEP 1 CONTENT -->
+        <div *ngIf="currentStepIndex === 0" class="step-pane">
+            <h2>Who is filing?</h2>
+            <p class="subtitle">The payer or employer that appears on the form.</p>
+
+            <!-- Put your custom search bar, tables, or filters here -->
+            <div class="content-placeholder">
+                <input type="text" placeholder="Type a name or EIN" class="search-input" />
+                <!-- Table mockup or content goes here -->
+            </div>
+        </div>
+
+        <!-- STEP 2 CONTENT -->
+        <div *ngIf="currentStepIndex === 1" class="step-pane">
+            <h2>Form and year</h2>
+            <p class="subtitle">Choose tax year and form content...</p>
+        </div>
+
+        <!-- STEP 3 CONTENT -->
+        <div *ngIf="currentStepIndex === 2" class="step-pane">
+            <h2>Recipients</h2>
+            <p class="subtitle">Choose who gets a form content...</p>
+        </div>
+
+        <!-- STEP 4 CONTENT -->
+        <div *ngIf="currentStepIndex === 3" class="step-pane">
+            <h2>Form details</h2>
+            <p class="subtitle">Enter box amounts content...</p>
+        </div>
+
+        <!-- STEP 5 CONTENT -->
+        <div *ngIf="currentStepIndex === 4" class="step-pane">
+            <h2>Review</h2>
+            <p class="subtitle">Check and add to cart content...</p>
+        </div>
+
+    </div>
+
+    <!-- Footer Actions -->
+    <footer class="wizard-footer">
+        <button class="btn btn-secondary" *ngIf="currentStepIndex > 0" (click)="prevStep()">Back</button>
+        <button class="btn btn-primary" (click)="nextStep()">
+            {{ currentStepIndex === steps.length - 1 ? 'Finish' : 'Continue' }}
+        </button>
+    </footer>
+
+</div>
